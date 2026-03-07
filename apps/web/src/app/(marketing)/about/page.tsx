@@ -6,9 +6,6 @@ export default async function AboutPage() {
         This page uses the marketing layout. Notice the header and footer
         are defined once in the layout and wrap this content automatically.
       </p>
-      <p className="text-gray-500 text-sm">
-        Founded: {data.founded} · Team: {data.team}
-      </p>
     </div>
   )
 }
