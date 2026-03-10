@@ -1,23 +1,42 @@
-'use client'
- 
-import { useEffect } from 'react'
- 
+"use client";
+
+// Nested error boundary with correlation ID for debugging
+// Demonstrates: different error UI, correlation tracking, reset functionality
+
+import { useEffect, useMemo } from "react";
+
+// In production, this helps trace errors across logs and support tickets
+function generateCorrelationId(): string {
+  return `err-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
 export default function ErrorDemoBoundary({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
+  // Memoize so correlation ID stays stable during re-renders
+  const correlationId = useMemo(() => generateCorrelationId(), []);
+
   useEffect(() => {
-    // biome-ignore lint/suspicious/noConsole: Intentional for error reporting demonstration
-    console.error('Error demo boundary caught:', error)
-  }, [error])
- 
+    // In production: send to Sentry, DataDog, or your error reporting service
+    const errorLog = {
+      correlationId,
+      digest: error.digest,
+      message: error.message,
+      timestamp: new Date().toISOString(),
+      location: "/error-demo",
+    };
+    // biome-ignore lint/suspicious/noConsole: Error logging is intentional
+    console.error("Error demo boundary caught:", errorLog);
+  }, [error, correlationId]);
+
   return (
     <div className="mx-auto max-w-2xl p-8">
       <div className="rounded-lg border-2 border-orange-300 bg-orange-50 p-6">
-        <h2 className="mb-2 font-bold text-xl text-orange-800">
+        <h2 className="mb-2 font-bold text-orange-800 text-xl">
           Demo Error Caught!
         </h2>
         <p className="mb-4 text-orange-700">
@@ -26,7 +45,17 @@ export default function ErrorDemoBoundary({
         <p className="mb-4 font-mono text-orange-600 text-sm">
           {error.message}
         </p>
+        {/* Correlation ID: give to users for support tickets */}
+        <p className="mb-4 font-mono text-orange-400 text-xs">
+          Correlation ID: {correlationId}
+        </p>
+        {error.digest && (
+          <p className="mb-4 font-mono text-orange-400 text-xs">
+            Digest: {error.digest}
+          </p>
+        )}
         <div className="flex gap-3">
+          {/* reset() re-renders the component tree, clearing the error state */}
           <button
             type="button"
             onClick={reset}
@@ -43,5 +72,5 @@ export default function ErrorDemoBoundary({
         </div>
       </div>
     </div>
-  )
+  );
 }
