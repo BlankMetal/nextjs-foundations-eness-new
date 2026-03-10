@@ -1,0 +1,19 @@
+{
+  "name": "Next.js Foundations",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/nix:1": {
+      "flakes": true
+    },
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "postCreateCommand": "nix develop --command true && npm install -g @anthropic-ai/claude-code",
+  "postStartCommand": "nix develop",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "nix"
+      }
+    }
+  }
+}
