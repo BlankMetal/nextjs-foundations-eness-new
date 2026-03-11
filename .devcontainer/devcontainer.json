@@ -11,13 +11,7 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "nix-shell",
-        "terminal.integrated.profiles.linux": {
-          "nix-shell": {
-            "path": "nix",
-            "args": ["develop", "--command", "bash"]
-          }
-        }
+        "terminal.integrated.defaultProfile.linux": "nix-shell"
       }
     }
   }
