@@ -7,7 +7,7 @@
     },
     "ghcr.io/devcontainers/features/node:1": {}
   },
-  "postCreateCommand": "nix develop --command true && npm install -g @anthropic-ai/claude-code",
+  "postCreateCommand": "mkdir -p ~/.config/nix && echo 'experimental-features = nix-command flakes' > ~/.config/nix/nix.conf && nix develop --command true && npm install -g @anthropic-ai/claude-code",
   "postStartCommand": "nix develop",
   "customizations": {
     "vscode": {
