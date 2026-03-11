@@ -11,7 +11,7 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "terminal.integrated.defaultProfile.linux": "nix-shell"
+        "terminal.integrated.defaultProfile.linux": "nix"
       }
     }
   }
