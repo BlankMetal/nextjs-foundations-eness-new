@@ -6,10 +6,14 @@ export default function MarketingLayout({
   return (
     <div className="min-h-screen">
       <header className="mb-8 border-b py-4">
-        <nav className="flex gap-4">
+        <nav className="mx-auto flex max-w-4xl gap-4 px-4">
           <a href="/" className="font-semibold">Home</a>
           <a href="/about" className="text-gray-600 hover:text-gray-900">About</a>
           <a href="/pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
+          {/* Link to dashboard — crosses into a different layout */}
+          <a href="/dashboard" className="ml-auto text-blue-600 hover:text-blue-800">
+            Dashboard →
+          </a>
         </nav>
       </header>
       <main>{children}</main>

@@ -36,6 +36,9 @@ yarn-error.log*
 # Nix / direnv
 .direnv/
 
+# Claude Code local settings (contains API keys)
+.claude/settings.local.json
+
 # Misc
 .DS_Store
 *.pem
