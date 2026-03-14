@@ -1,12 +1,55 @@
-import { fetchPosts } from '@repo/api/blog';
+import { Suspense } from 'react';
+import { fetchPosts, fetchCategories } from '@repo/api/blog';
 import Link from 'next/link';
+import { FilterControls } from './filter-controls';
 
-export default async function BlogHomePage() {
-  const posts = await fetchPosts(10);
+// searchParams is a Promise — must be typed and awaited
+type Props = {
+  searchParams: Promise<{
+    category?: string;
+    sort?: string;
+    page?: string;
+  }>;
+};
+
+export default async function BlogHomePage({ searchParams }: Props) {
+  // Await searchParams before accessing values
+  const { category, sort, page } = await searchParams;
+
+  const [allPosts, categories] = await Promise.all([
+    fetchPosts(50),
+    fetchCategories(),
+  ]);
+
+  // Filter by category if provided
+  let posts = category
+    ? allPosts.filter(
+        (p) => p.category.toLowerCase() === category.toLowerCase()
+      )
+    : allPosts;
+
+  // Sort by title if requested, otherwise keep default (by date)
+  if (sort === 'title') {
+    posts = [...posts].sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  const currentPage = parseInt(page || '1', 10);
 
   return (
     <main className="flex flex-col gap-8">
-      <h1 className="font-bold text-4xl">Blog</h1>
+      <h1 className="font-bold text-4xl">
+        Blog {category && <span className="text-gray-500">in {category}</span>}
+      </h1>
+
+      {/* Suspense boundary required — useSearchParams inside FilterControls
+          would otherwise force the entire page to client-render */}
+      <Suspense fallback={<div className="h-10 animate-pulse bg-gray-100 rounded" />}>
+        <FilterControls
+          categories={categories}
+          currentCategory={category}
+          currentSort={sort}
+        />
+      </Suspense>
 
       <div className="flex flex-col gap-6">
         {posts.map((post) => (
@@ -28,6 +71,8 @@ export default async function BlogHomePage() {
           </article>
         ))}
       </div>
+
+      <p className="text-sm text-gray-500">Page {currentPage}</p>
     </main>
   );
 }
