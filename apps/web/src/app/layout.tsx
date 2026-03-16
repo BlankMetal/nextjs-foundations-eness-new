@@ -1,6 +1,22 @@
 import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 import "./globals.css";
+
+// Variable font — all weights (100–900) in a single file, fewer network requests
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  adjustFontFallback: true,
+});
+
+// Monospace font for code blocks
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME || "Vercel Academy Foundation - Web",
@@ -13,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="container mx-auto px-4 py-8">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="container mx-auto px-4 py-8 font-sans">
         {children}
         {/* TODO: Convert to next/script (Section 4 Lesson 3) */}
         <script
