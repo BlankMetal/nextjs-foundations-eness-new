@@ -5,6 +5,18 @@ import type { NextConfig } from 'next';
 const blogUrl = process.env.BLOG_URL || 'http://localhost:3001';
 
 const nextConfig: NextConfig = {
+  // Allow next/image to optimize images from these external domains
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+    ],
+    // Prefer AVIF (smallest), fall back to WebP
+    formats: ['image/avif', 'image/webp'],
+  },
+
   // Enables the "use cache" directive for functions and components
   cacheComponents: true,
 
