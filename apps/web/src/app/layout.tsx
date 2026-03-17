@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
 
@@ -32,6 +34,10 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="container mx-auto px-4 py-8 font-sans">
         {children}
+        {/* Vercel Speed Insights: tracks Core Web Vitals in production dashboard */}
+        <SpeedInsights />
+        {/* Vercel Analytics: tracks page views and visitor data */}
+        <Analytics />
         {/* TODO: Convert to next/script (Section 4 Lesson 3) */}
         <script
           src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
