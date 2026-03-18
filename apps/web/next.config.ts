@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
         hostname: 'picsum.photos',
       },
     ],
+    // Align with Tailwind breakpoints: sm(640), md(768), lg(1024), xl(1280), 2xl(1536)
+    deviceSizes: [640, 768, 1024, 1280, 1536, 1920],
+    // Common thumbnail/avatar sizes in the design system
+    imageSizes: [32, 48, 64, 96, 128, 192, 256],
+    // Restrict to quality values we actually use (prevents optimization API abuse)
+    qualities: [75, 85],
     // Prefer AVIF (smallest), fall back to WebP
     formats: ['image/avif', 'image/webp'],
   },
