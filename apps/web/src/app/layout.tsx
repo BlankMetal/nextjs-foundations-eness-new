@@ -4,6 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 
 import "./globals.css";
+import { GoogleAnalytics } from "../components/google-analytics";
 
 // Variable font — all weights (100–900) in a single file, fewer network requests
 const inter = Inter({
@@ -38,21 +39,8 @@ export default function RootLayout({
         <SpeedInsights />
         {/* Vercel Analytics: tracks page views and visitor data */}
         <Analytics />
-        {/* TODO: Convert to next/script (Section 4 Lesson 3) */}
-        <script
-          src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-          async
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'GA_MEASUREMENT_ID');
-            `,
-          }}
-        />
+        {/* Google Analytics — client component for onLoad support */}
+        <GoogleAnalytics />
       </body>
     </html>
   );
